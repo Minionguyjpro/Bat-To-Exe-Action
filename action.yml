@@ -17,17 +17,18 @@ runs:
     - name: Install the converter
       run: |
         New-Item -Path "$Env:PROGRAMFILES\Bat To Exe Converter" -ItemType Directory
-        curl "https://gsf-fl.softonic.com/67e/676/08af90d870c4a8f8ab91b52d4544e93ca3/Bat_To_Exe_Converter_x64.exe?Expires=1678068497&Signature=ad4abc6155d7501827e7cc6f00f79d954ea58623&url=https://bat-to-exe-converter-x64.en.softonic.com&Filename=Bat_To_Exe_Converter_x64.exe" -o "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe.exe" -k
+        curl "https://gsf-fl.softonic.com/67e/676/08af90d870c4a8f8ab91b52d4544e93ca3/Bat_To_Exe_Converter_x64.exe?Expires=1678068497&Signature=ad4abc6155d7501827e7cc6f00f79d954ea58623&url=https://bat-to-exe-converter-x64.en.softonic.com&Filename=Bat_To_Exe_Converter_x64.exe" -o "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" -k
       shell: pwsh
       if: ${{ runner.os == 'Windows' }}
     - name: Run the converter
-      run: Start-Process "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" /src "$Env:INPUTS_SRC" /exe "$Env:INPUTS_EXE"
+      run: "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" '/src "${{ inputs.src }}" /exe "${{ inputs.exe }}"'
       shell: pwsh
       if: ${{ runner.os == 'Windows' }}
     - name: Throw wrong OS error (if applicable)
       run: |
-        Write-Output "This action only works on Windows!"
-        throw "Your OS is not supported!"
+        RED='\033[0;31m'
+        echo "This action only works on Windows!"
+        printf "${RED}Exception: Your OS is not supported! \n"
         exit 1
-      shell: pwsh
+      shell: bash
       if: ${{ runner.os != 'Windows' }}
