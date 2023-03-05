@@ -1,6 +1,7 @@
 # Bat-To-Exe-Action
 GitHub action to convert .bat files to .exe
 # Example usage
+```yaml
 name: Create a .exe file
 on:
   push:
@@ -15,6 +16,7 @@ jobs:
       with:
         src: file.bat
         exe: outputfile.exe
+```
 # Settings
 | **Key name** | **Required** | **Example** | **Default Value** | **Description                             |
 |--------------|--------------|-------------|-------------------|-------------------------------------------|
