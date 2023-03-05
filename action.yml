@@ -1,0 +1,19 @@
+name:
+description:
+branding:
+  icon: 'setting'
+  color: 'blue'
+inputs:
+  src:
+    description: ''
+    required: true
+  exe:
+    description: ''
+    required: true
+    default: 'bat.exe'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.src }}
+    - ${{ inputs.exe }}
