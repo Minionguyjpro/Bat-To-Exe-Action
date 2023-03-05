@@ -1,0 +1,19 @@
+name: Test action
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Test the action
+        uses: Minionguyjpro/Bat-To-Exe-Action@main
+        with:
+          src: example.bat
+          exe: example.exe
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Bat-To-Exe-Action Example
+          path: ./example.exe
