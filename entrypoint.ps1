@@ -1,0 +1,1 @@
+start "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" /bat "$Env:INPUT_SRC" /exe "$Env:INPUT_EXE"
