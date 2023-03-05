@@ -4,7 +4,7 @@ on:
   pull_request:
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Test the action
         uses: Minionguyjpro/Bat-To-Exe-Action@main
