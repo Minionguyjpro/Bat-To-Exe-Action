@@ -21,7 +21,7 @@ runs:
       shell: pwsh
       if: ${{ runner.os == 'Windows' }}
     - name: Run the converter
-      run: "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" '/src "${{ inputs.src }}" /exe "${{ inputs.exe }}"'
+      run: & "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" '/src "${{ inputs.src }}" /exe "${{ inputs.exe }}"'
       shell: pwsh
       if: ${{ runner.os == 'Windows' }}
     - name: Throw wrong OS error (if applicable)
