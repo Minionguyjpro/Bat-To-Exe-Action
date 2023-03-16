@@ -11,6 +11,10 @@ inputs:
     description: 'The output exe application to be build'
     required: true
     default: 'bat.exe'
+  artifact-name:
+    description: 'The output name for the artifact'
+    required: true
+    default: 'Exe Build'
 runs:
   using: 'composite'
   steps:
@@ -23,6 +27,12 @@ runs:
     - name: Run the converter
       run: '& "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" /bat "${{ github.workspace }}\${{ inputs.src }}" /exe "${{ github.workspace }}\${{ inputs.exe }}"'
       shell: pwsh
+      if: ${{ runner.os == 'Windows' }}
+    - name: Upload the output file as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ github.workspace }}\${{ inputs.exe }}
       if: ${{ runner.os == 'Windows' }}
     - name: Throw wrong OS error (if applicable)
       run: |
