@@ -1,44 +1,18 @@
-name: Bat To Exe Action
-description: Converts .bat to .exe files
+name: 'BAT to EXE Action'
+author: 'Minionguyjpro'
 branding:
-  icon: 'setting'
-  color: 'blue'
+  icon: 'box'
+  color: 'green'
+description: 'GitHub action to convert your Windows batch files (.bat/cmd) into executables (.exe).'
+
 inputs:
-  src:
-    description: 'The source batch file to be compiled'
+  path:
+    description: 'Path to input batch files (.bat/cmd)'
     required: true
-  exe:
-    description: 'The output exe application to be build'
-    required: true
-    default: 'bat.exe'
-  artifact-name:
-    description: 'The output name for the artifact'
-    required: true
-    default: 'Exe Build'
+  options:
+    description: 'Extra arguments/options to include. Include the slashes for them.'
+    required: false
+    
 runs:
-  using: 'composite'
-  steps:
-    - name: Install the converter
-      run: |
-        New-Item -Path "$Env:PROGRAMFILES\Bat To Exe Converter" -ItemType Directory
-        curl "https://gsf-fl.softonic.com/67e/676/08af90d870c4a8f8ab91b52d4544e93ca3/Bat_To_Exe_Converter_x64.exe?Expires=1678068497&Signature=ad4abc6155d7501827e7cc6f00f79d954ea58623&url=https://bat-to-exe-converter-x64.en.softonic.com&Filename=Bat_To_Exe_Converter_x64.exe" -o "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" -k
-      shell: pwsh
-      if: ${{ runner.os == 'Windows' }}
-    - name: Run the converter
-      run: '& "$Env:PROGRAMFILES\Bat To Exe Converter\Bat_To_Exe_Converter.exe" /bat "${{ github.workspace }}\${{ inputs.src }}" /exe "${{ github.workspace }}\${{ inputs.exe }}"'
-      shell: pwsh
-      if: ${{ runner.os == 'Windows' }}
-    - name: Upload the output file as an artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ inputs.artifact-name }}
-        path: ${{ github.workspace }}\${{ inputs.exe }}
-      if: ${{ runner.os == 'Windows' }}
-    - name: Throw wrong OS error (if applicable)
-      run: |
-        RED='\033[0;31m'
-        echo "This action only works on Windows!"
-        printf "${RED}Exception: Your OS is not supported! \n"
-        exit 1
-      shell: bash
-      if: ${{ runner.os != 'Windows' }}
+  using: 'node20'
+  main: 'dist/index.js'

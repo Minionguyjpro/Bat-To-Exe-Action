@@ -1,24 +1,27 @@
-# Bat-To-Exe-Action
-GitHub action to convert .bat files to .exe
-# Example usage
-```yaml
-name: Create a .exe file
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+# Inno-Setup-Action
+GitHub action to compile .iss (Inno Setup Script) files.
+### Example Usage
+Make for example the file ``/.github/workflows/build.yml`` with the following contents:
+```yml
+name: Build Installer
+on: push
 jobs:
- create_iso:
-   runs-on: windows-latest
-   steps:
-    - name: Create .EXE file from batch
-      uses: Minionguyjpro/Create-Disk-Image@v1
-      with:
-        src: file.bat
-        exe: outputfile.exe
+  build:
+    name: Build the Inno Setup Installer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile .ISS to .EXE Installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: src/setup.iss
+          options: /O+
 ```
-# Settings
-| **Key name** | **Required** | **Example** | **Default Value** | **Description                             |
-|--------------|--------------|-------------|-------------------|-------------------------------------------|
-| ``src``      | Yes          | example.bat | N/A               | The source batch file for the compilation |
-| ``exe``      | Yes          | example.exe | bat.exe           | The .exe file to be compiled              |
+The action will tell you it saved the file somewhere around in ``D:\YOURREPONAME\YOURREPONAME\`` and maybe in another directory (depends on how you've defined the output directory in your .iss script). In this case, ``D:\YOURREPONAME\YOURREPONAME\`` is the root directory of your cloned GitHub repository workspace in the action. Keep this path layout in mind if you need it for other things in your workflow. If you'd choose to save the setup file in the root directory (by example not specifing a custom directory) and calling it setup.exe, it would be at ``D:\YOURREPONAME\YOURREPONAME\setup.exe``.
+
+---
+| **Key Name** | **Required** | **Example**        | **Default Value** | **Description**
+|--------------|--------------|--------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| ``path``     | Yes          | ``src/setup.iss``  | N/A               | Path to input .iss script file.                                                                                                     
+| ``options``  | No           | ``/O+``            | N/A               | Extra arguments/options to include. Include the slashes for them. See [this page](https://jrsoftware.org/ishelp/index.php?topic=compilercmdline) for more information.                                                                                                                                  |

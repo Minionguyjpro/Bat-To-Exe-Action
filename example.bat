@@ -1,2 +1,0 @@
-@ECHO OFF
-echo I AM FLYING!!!
